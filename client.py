@@ -1,0 +1,19 @@
+import socket
+
+SERVER = "192.168.178.59"
+PORT = 4444
+
+
+file_send = input("Enter the file name to send: ")
+s = socket.socket()
+s.connect((SERVER, PORT))
+msg = s.recv(1024).decode()
+print('[*] server:', msg)
+
+s.send('client connected'.encode())
+with open(file_send, 'rb') as f:
+    print('[*] Sending file...')
+    data = f.read(1024)
+    s.send(data)
+
+s.close()
