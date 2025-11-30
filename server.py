@@ -17,13 +17,18 @@ while True:
 
     client[0].send('connected'.encode())
 
-    # Receive the file name
-    file_name = client[0].recv(1024).decode()
-    print(f'[+] Received file name: {file_name}')
+    try:
+        # Receive the file name
+        file_name = client[0].recv(1024).decode()
+        print(f'[+] Received file name: {file_name}')
 
-    # Validate the file name
-    if not file_name:
-        print("[!] No file name received. Closing connection.")
+        # Validate the file name
+        if not file_name:
+            print("[!] No file name received. Closing connection.")
+            client[0].close()
+            continue
+    except UnicodeDecodeError:
+        print("[!] Failed to decode file name. Closing connection.")
         client[0].close()
         continue
 

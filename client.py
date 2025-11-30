@@ -10,10 +10,17 @@ s.connect((SERVER, PORT))
 msg = s.recv(1024).decode()
 print('[*] server:', msg)
 
+# Send the file name
+s.send(file_send.encode())
+
+# Send the file contents
 with open(file_send, 'rb') as f:
     print('[*] Sending file...')
-    s.send(f.name.encode())
-    data = f.read(1024)
-    s.send(data)
+    while True:
+        data = f.read(1024)
+        if not data:
+            break
+        s.send(data)
 
+print('[*] File sent successfully.')
 s.close()
