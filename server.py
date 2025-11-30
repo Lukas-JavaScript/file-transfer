@@ -16,9 +16,10 @@ while True:
     print(f'[+] client connected {client[1]}')
 
     client[0].send('connected'.encode())
-    data = client[0].recv(1024).decode()
-    print(data)
-    file_name = data
+
+    # Receive the file name
+    file_name = client[0].recv(1024).decode()
+    print(f'[+] Received file name: {file_name}')
 
     # Validate the file name
     if not file_name:
@@ -26,12 +27,16 @@ while True:
         client[0].close()
         continue
 
+    # Open the file to write binary data
     with open(file_name, 'wb') as f:
         print('[*] Receiving file...')
-        data = client[0].recv(1024)
-        if not data:
-            break
-        f.write(data)
+        while True:
+            data = client[0].recv(1024)
+            if not data:
+                break
+            f.write(data)
+
+    print(f'[+] File {file_name} received successfully.')
     client[0].close()
 
     cmd = input('Wait for new client y/n ') or 'y'
