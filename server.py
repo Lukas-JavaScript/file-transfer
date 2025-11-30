@@ -19,13 +19,19 @@ while True:
     data = client[0].recv(1024).decode()
     print(data)
     file_name = data
+
+    # Validate the file name
+    if not file_name:
+        print("[!] No file name received. Closing connection.")
+        client[0].close()
+        continue
+
     with open(file_name, 'wb') as f:
         print('[*] Receiving file...')
         data = client[0].recv(1024)
         if not data:
             break
         f.write(data)
-
     client[0].close()
 
     cmd = input('Wait for new client y/n ') or 'y'
