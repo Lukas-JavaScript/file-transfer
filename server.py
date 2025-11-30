@@ -1,6 +1,6 @@
 import socket
 
-SERVER = "192.168.178.59"
+SERVER = input("Enter the server IP address to bind to: ")
 PORT = 4444
 
 s = socket.socket()
