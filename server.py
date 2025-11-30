@@ -18,7 +18,8 @@ while True:
     client[0].send('connected'.encode())
     data = client[0].recv(1024).decode()
     print(data)
-    with open('received_file', 'wb') as f:
+    file_name = data
+    with open(file_name, 'wb') as f:
         print('[*] Receiving file...')
         data = client[0].recv(1024)
         if not data:

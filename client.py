@@ -10,9 +10,9 @@ s.connect((SERVER, PORT))
 msg = s.recv(1024).decode()
 print('[*] server:', msg)
 
-s.send('client connected'.encode())
 with open(file_send, 'rb') as f:
     print('[*] Sending file...')
+    s.send(f.name.encode())
     data = f.read(1024)
     s.send(data)
 
